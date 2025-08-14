@@ -69,14 +69,56 @@ public class SellerDaoImplementsJdbc implements SellerDao {
 
 	@Override
 	public void update(Seller obj) {
-		// TODO Auto-generated method stub
+PreparedStatement st = null;
+		
+		try{
+		
+			st = conn.prepareStatement("UPDATE seller\r\n"
+					+ "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ?\r\n"
+					+ "WHERE Id = ?\r\n"
+					+ "",
+					Statement.RETURN_GENERATED_KEYS );
+			
+			
+			st.setString(1, obj.getName());
+			st.setString(2, obj.getEmail());
+			st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+			st.setDouble(4, obj.getBaseSalary());
+			st.setInt(5, obj.getDepartament().getId());
+			st.setInt(6, obj.getId());
+			
+			st.executeUpdate();			
+		}catch (SQLException e) {
+			throw new DbExeption(e.getMessage());
+		}finally {
+			DB.closeStatement(st);
+			
+		}
 
 	}
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
-
+		PreparedStatement st = null;
+		
+		try {
+		st = conn.prepareStatement("DELETE FROM seller WHERE Id = ?");
+		st.setInt(1, id);
+		
+		int linhasAlteradas = st.executeUpdate();
+		if (linhasAlteradas == 0 ) {
+			throw new DbExeption("Error inesperado");
+		}
+		
+		
+		
+		
+		}catch (Exception e) {
+			throw new DbExeption(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
+		
 	}
 
 	@Override
@@ -89,7 +131,7 @@ public class SellerDaoImplementsJdbc implements SellerDao {
 					+ "FROM seller INNER JOIN department\r\n" + "ON seller.DepartmentId = department.Id\r\n"
 					+ "WHERE DepartmentId = ?\r\n" + "ORDER BY Name");
 
-			st.setInt(1, id);
+			st.setInt(1,id);
 			rs = st.executeQuery();
 			if (rs.next()) {
 
