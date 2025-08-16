@@ -17,10 +17,11 @@ public class Program {
 		Scanner teclado = new Scanner(System.in);
 		SellerDao sellerDao = DaoFactory.createSellerDao();
 		
-		Seller seller = sellerDao.findById(13);
+		
 		
 		
 		System.out.println("=== Test 1: Seller Find By id ===");
+		Seller seller = sellerDao.findById(13);
 		System.out.println(seller);
 		
 		System.out.println("\n === Test 2: Seller Find By Department ===");

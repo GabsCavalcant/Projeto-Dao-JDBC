@@ -6,18 +6,20 @@ import java.util.Objects;
 public class Departament implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String name;
 	
 	public Departament() {
 		
 	}
 
-	public Departament(int id, String name) {
+	public Departament(Integer id, String name) {
 		
 		this.id = id;
 		this.name = name;
 	}
+	
+	
 
 	public Integer getId() {
 		return id;
